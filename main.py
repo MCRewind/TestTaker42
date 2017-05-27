@@ -1,4 +1,24 @@
 running = True
+lastLine = 0
+
+def takeQuestion(lines):
+    global lastLine
+    for x in range(lastLine, len(lines)):
+        if lines[x].endswith('-'):
+            print((lines[x])[:-1])
+            correct = x
+        elif lines[x] == '\n':
+            lastLine = x
+            break
+        else:
+            print(lines[x])
+    if int(input()) == correct:
+        print("Correct")
+        takeQuestion(lines)
+    else:
+        print("Incorrect")
+
+
 print("Test Taker Project")
 print("Your commands are TEST, CREATE, CLEAR, QUIT")
 while running:
@@ -7,17 +27,7 @@ while running:
         running = False
     elif user_input == "TEST":
         lines = [line.rstrip('\n') for line in open('answer_file.test')]
-        for x in range(0, len(lines)):
-            if lines[x].endswith('-'):
-                print((lines[x])[:-1])
-                correct = x
-            else:
-                print(lines[x])
-        if int(input()) == correct:
-            print("Correct")
-        else:
-            print("Incorrect")
-        answer_file.close()
+        takeQuestion(lines)
     elif user_input == "CLEAR":
         answer_file = open("answer_file.test", 'w')
         answer_file.close()
