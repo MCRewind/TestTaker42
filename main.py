@@ -3,6 +3,8 @@ for x in range(0, len(lines)):
     if lines[x].endswith('-'):
         print((lines[x])[:-1])
         correct = x
+    elif lines[x] == "\n":
+        print("divide")
     else:
         print(lines[x])
 if int(input()) == correct:
