@@ -1,0 +1,1 @@
+lines = [line.rstrip('\n') for line in open('answer_file.test')]
