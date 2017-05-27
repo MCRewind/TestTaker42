@@ -1,5 +1,6 @@
 running = True
 lastLine = 0
+attempts = 0
 
 def takeQuestion(lines):
     global lastLine
@@ -15,22 +16,35 @@ def takeQuestion(lines):
     if int(input()) == correct:
         print("Correct")
         takeQuestion(lines)
+        return True
     else:
         print("Incorrect")
+        return False
 
 
 print("Test Taker Project")
 print("Your commands are TEST, CREATE, CLEAR, QUIT")
+score_file = open("test_score.test", 'w')
+score_file.close()
 while running:
     user_input = input("\nEnter command: ").upper()
     if user_input == "QUIT":
         running = False
     elif user_input == "TEST":
+        score = 0
+        attempts += 1
         lines = [line.rstrip('\n') for line in open('answer_file.test')]
-        takeQuestion(lines)
+        if(takeQuestion(lines)):
+            score += 1
+        score_file = open("test_score.test", 'a')
+        score_file.write('\n' + "Attempt: " + str(attempts) + '\n' + "Score: " + str(score) + '\n')
+        score_file.close()
     elif user_input == "CLEAR":
         answer_file = open("answer_file.test", 'w')
         answer_file.close()
+        score_file = open("test_score.test", 'w')
+        score_file.close()
+        attempts = 0
     elif user_input == "CREATE":
         new_problem = input("Write the problem: ")
         answer_file = open("answer_file.test", 'a')
